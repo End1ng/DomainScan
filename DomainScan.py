@@ -48,7 +48,7 @@ def getlink(url, domain):
         for u in re.findall("https?://[\w*\.]*[\d:]*", requests.get(url,timeout=3).content):
             if u in urllist or u in faillist:
                 pass
-            elif re.match("https?://[\d*\.]+[\d:]*", u):
+            elif re.match("https?://\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:?\d*", u):
                 urllist.append(u)
                 print "OK " + u
                 queue.put(u)
