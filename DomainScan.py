@@ -14,7 +14,7 @@ def Argparse():
 
     formatter_class=argparse.RawDescriptionHelpFormatter,
     description=(u'''
-        作者：End1ng blog:end1ng.wordpress.com
+        作者：ni7eipr
         --------------------------------
         domain scan'''))
     optional = parser.add_argument_group('optional arguments')
@@ -46,7 +46,7 @@ def Argparse():
 
 def getlink(url, domain):
     try:
-        for u in re.findall("https?://[\w*\.]*[\d:]*", requests.get(url,timeout=3).content):
+        for u in re.findall("https?://[\w*\.]*[\d:]*", requests.get(url,timeout=10).content):
             if u in urllist or u in faillist:
                 pass
             elif re.match("https?://\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:?\d*", u):
@@ -58,8 +58,9 @@ def getlink(url, domain):
                 print "OK " + u
                 queue.put(u)
     except:
-        faillist.append(url)
-        print "NO " + url
+        if url not in faillist and url not in urllist:
+            faillist.append(url)
+            print "NO " + url
 
 ARGV = Argparse()
 queue = Queue.Queue()
